@@ -20,6 +20,7 @@ for _ in range(n_end):
     x_values.append(new_x)
     print("Generation " + str(n + 1))
     print("----------------")
+    print("x = " + str(x_values[n]))
     print("y = " + str(new_y))
     print("----------------")
     n = n + 1
