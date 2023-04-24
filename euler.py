@@ -1,4 +1,5 @@
 # Author: Colin McClure
+
 y_0 = float(input("y_0 = "))
 x_0 = float(input("x_0 = "))
 h = float(input("h = "))
@@ -8,7 +9,7 @@ y_values = [y_0]
 x_values = [x_0]
 n = 0
 
-# The multi-variable function given in equation (1) from document Test 2B
+# The multi-variable function given in equation (6) from document Test 2B
 def f(x, y):
     return (2 * x) + y
 
