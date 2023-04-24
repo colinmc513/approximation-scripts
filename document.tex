@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\hypersetup{
+colorlinks=true,
+urlcolor=blue
+}
+
+\title{Test 2B}
+\author{Colin McClure}
+\date{April 23 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This document contains the solutions that I derived for the question presented in test 2B involving the following list of equations:
+\begin{equation} \label{test-question}
+    \begin{split}
+        \frac{dy}{dx} = 2x+y, \\
+        y(0) = 1.
+    \end{split}
+\end{equation}
+The exact solution for the differential equation (\ref{test-question}) we wish to approximate is given by the following:
+\begin{equation} \label{diff-eq-solution}
+    y=-2(x + 1)+3e^x
+\end{equation}
+For this test, we are required to use numerical methods Euler, Modified Euler, and Runge Kutta including x-values x = 0.2, 0.4, 0.6, 0.8, and 1.0 using steps $h=0.2$ and $h=0.1$. Each section will cover the respective test using each condition. I note that our initial condition implies the following for all tests done in this document:
+\begin{equation} \label{init-values}
+    \begin{split}
+        x_0 &= 0 \\
+        y_0 &= 1
+    \end{split}
+\end{equation}
+Additionally, to simplify things in this document, a series of scripts written in Python will be used to approximate to our liking. The source code for these programs are on \href{https://github.com/colinmc513/approximation-scripts}{GitHub}.
+\section{Euler Method}
+We begin with the Euler Method. To recap, the Euler Method is defined as:
+\begin{equation} \label{euler}
+    y_{n+1}=y_n+f(x_n,y_n)\cdot h
+\end{equation}
+Where $x_n$ is given as:
+\begin{equation} \label{euler-x-val}
+    x_{n+1}=x_n+h
+\end{equation}
+And $f(x,y)$ is found by referring to equation (\ref{test-question}), where we define the right-hand side of the equation as being the multi-variable function. This is formally given as:
+\begin{equation} \label{euler-function}
+    f(x,y)=2x+y
+\end{equation}
+\subsection{Approximation Using $h=0.2$}
+\label{sec:2.1}
+For this approximation, we will use the script \href{https://github.com/colinmc513/approximation-scripts/blob/main/euler.py}{euler.py}. The inputs for initial conditions are given by equation (\ref{init-values}). Obviously, $h = 0.2$ and we end the approximation such that $n_{end} = 5$. Running the program, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.2 \\
+        y_2 &= 1.52 \\
+        y_3 &= 1.984 \\
+        y_4 &= 2.6208 \\
+        y_5 &= 3.46496 
+    \end{split}
+\end{equation*}
+\subsection{Approximation Using $h=0.1$}
+Repeating the same steps as in \hyperref[sec:2.1]{2.1}, except now setting $h=0.1$ and $n_{end} = 10$ to account for all the x-values requested by the question, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.1 \\
+        y_2 &= 1.23 \\
+        y_3 &= 1.393 \\
+        y_4 &= 1.5923 \\
+        y_5 &= 1.83153 \\
+        y_6 &= 2.114683 \\
+        y_7 &= 2.4461513 \\
+        y_8 &= 2.83076643 \\
+        y_9 &= 3.273843073 \\
+        y_{10} &= 3.7812273803 
+    \end{split}
+\end{equation*}
+\subsection{Comparison}
+\label{sec:2.3}
+For ease, we will compare the term that corresponds with $x=1.0$ with the exact solution (\ref{diff-eq-solution}). The comparisons are given below:
+\begin{equation*}
+    \begin{split}
+        y_{\text{exact}} &= -2(1+1)+3e^1 \approx 4.154845485 \approx 4.15 \\
+        y_{\text{h=0.2}} &= 3.46496 \approx 3.46 \\
+        y_{\text{h=0.1}} &= 3.7812273803 \approx 3.78
+    \end{split}
+\end{equation*}
+As one can see, $h=0.1$ got progressively closer to the exact value when compared to $h=0.2$.
+\section{Modified Euler Method}
+Next, we will approximate the differential equation (\ref{test-question}) using the Modified Euler method. The Modified Euler method is very similar to the Euler method, except the approximated y-value is now given by the following:
+\begin{equation} \label{improved-euler}
+    y_{n+1}=y_n+\frac{f(x_n,y_n) + f(x_{n+1}, \hat{y}_{n+1})}{2} \cdot h
+\end{equation}
+Where $\hat{y}$ is defined as:
+\begin{equation}
+    \hat{y}_{n+1}=y_n + f(x_n, y_n) \cdot h
+\end{equation}
+$x_n$ is given by equation (\ref{euler-x-val}) and we use the multi-variable function given by equation (\ref{euler-function}).
+\subsection{Approximation Using $h=0.2$}
+\label{sec:3.1}
+For this approximation, we will use the script \href{https://github.com/colinmc513/approximation-scripts/blob/main/modified-euler.py}{modified-euler.py}. The inputs for initial conditions are given by equation (\ref{init-values}). As we have asserted in the title of this subsection, $h=0.2$ and we end the approximation such that $n_{end}=5$. Running the program, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.26 \\
+        y_2 &= 1.6652 \\
+        y_3 &= 2.247544 \\
+        y_4 &= 3.04600368 \\
+        y_5 &= 4.1081244896 
+    \end{split}
+\end{equation*}
+\subsection{Approximation Using $h=0.1$}
+Repeating the same steps as in \hyperref[sec:3.1]{3.1}, except now setting $h = 0.1$ and $n_{end}=10$ to account for all the x-values requested by the question, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.115 \\
+        y_2 &= 1.263075 \\
+        y_3 &= 1.447697875 \\
+        y_4 &= 1.672706151875 \\
+        y_5 &= 1.942340297821875 \\
+        y_6 &= 2.2612860290931716 \\
+        y_7 &= 2.6347210621479547 \\
+        y_8 &= 3.06836677367349 \\
+        y_9 &= 3.5685452849092063 \\
+        y_{10} &= 4.142242539824673 
+    \end{split}
+\end{equation*}
+\subsection{Comparison}
+\label{sec:3.3}
+We will not be comparing the Euler and Modified Euler methods, rather, simply comparing the results of the Modified Euler approximations with the exact solution. As we did in \hyperref[sec:2.3]{2.3}, we will use $x=1.0$ for our comparison. The comparisons are given below:
+\begin{equation*}
+    \begin{split}
+        y_{\text{exact}} &= -2(1+1)+3e^1 \approx 4.154845485 \approx 4.15 \\
+        y_{\text{h=0.2}} &= 4.1081244896 \approx 4.11 \\
+        y_{\text{h=0.1}} &= 4.142242539824673 \approx 4.14
+    \end{split}
+\end{equation*}
+While the comparison was not made between the Euler and Modified Euler, it is interesting to note that these results are much closer to the exact result than those from \hyperref[sec:2.3]{2.3}. Furthermore, one can see that the comparison shows that the Improved Euler method produces results that are much closer to the exact value.
+\section{Runge Kutta Method}
+Finally, we approximate the y-values of differential equation (\ref{test-question}) using the Runge Kutta method. The Runge Kutta method is a bit different from the Euler and Modified Euler methods that we looked at previously. We now define $y_{n+1}$ by the following:
+\begin{equation}
+    y_{n+1}=y_n + K
+\end{equation}
+Where $K$ is given by the following:
+\begin{equation}
+    K=\frac{1}{6}(k_1+2k_2+2k_3+k_4)
+\end{equation}
+Where $k_1, k_2, k_3, \text{and } k_4$ are given by:
+\begin{equation}
+    \begin{split}
+        k_1 &= hf(x_n,y_n), \\
+        k_2 &= hf\left(x_n+\frac{h}{2}, y_n+\frac{k_1}{2}\right), \\
+        k_3 &= hf\left(x_n+\frac{h}{2}, y_n+\frac{k_2}{2}\right), \\
+        k_4 &= hf(x_n+h, y_n+k_3).
+    \end{split}
+\end{equation}
+While there are a plethora of differences in the Runge Kutta method when compared to Euler and Modified Euler methods, they share equations (\ref{euler-x-val}) and (\ref{euler-function}) for $x_0, y_0, \text{and } f(x,y)$, respectively. Like approximations from Euler and Modified Euler, we use steps $h=0.2$ and $h=0.1$ and include the x-values mentioned in the introduction. 
+\subsection{Approximation Using $h=0.2$}
+\label{sec:4.1}
+For this approximation, we will use the script \href{https://github.com/colinmc513/approximation-scripts/blob/main/runge-kutta.py}{runge-kutta.py}. The inputs for initial conditions are given by equation (\ref{init-values}). As we have asserted in the title of this subsection, $h=0.2$ and we end the approximation such that $n_{end}=5$. Running the program, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.2642 \\
+        y_2 &= 1.67545388 \\
+        y_3 &= 2.266319369032 \\
+        y_4 &= 3.0765624773356848 \\
+        y_5 &= 4.154753409817806 
+    \end{split}
+\end{equation*}
+\subsection{Approximation Using $h = 0.1$}
+Repeating the same steps as in \hyperref[sec:4.1]{4.1}, except now setting $h = 0.1$ and $n_{end}=10$ to account for all the x-values requested by the question, we get the following y-values:
+\begin{equation*}
+    \begin{split}
+        y_1 &= 1.1155125 \\
+        y_2 &= 1.2642077125520832 \\
+        y_3 &= 1.4495754911876129 \\
+        y_4 &= 1.6754727202420567 \\
+        y_5 &= 1.9461619157905141 \\
+        y_6 &= 2.266353886275799 \\
+        y_7 &= 2.6412548797903304 \\
+        y_8 &= 3.0766186898769456 \\
+        y_9 &= 3.578804241340212 \\
+        y_{10} &= 4.154839232405497 
+    \end{split}
+\end{equation*}
+\subsection{Comparison}
+As we have done in sections \hyperref[sec:2.3]{2.3} and \hyperref[sec:3.3]{3.3}, we will compare the results of the Runge Kutta method with the exact method obtained earlier. As we did in both sections, we will use $x=1.0$ to make the comparison. The comparisons are given below:
+\begin{equation*}
+    \begin{split}
+        y_{\text{exact}} &= -2(1+1)+3e^1 \approx 4.154845485 \approx 4.155 \\
+        y_{\text{h=0.2}} &= 4.154753409817806 \approx 4.155 \\
+        y_{\text{h=0.1}} &= 4.154839232405497 \approx 4.155
+    \end{split}
+\end{equation*}
+One can tell right away that the Runge Kutta Method surpasses the Euler and Modified Euler methods in its approximation. Using the same steps as we did in the other sections, we obtained values that were equal to the exact solution to the third decimal place. 
+\end{document}
